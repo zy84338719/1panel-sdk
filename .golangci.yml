@@ -36,9 +36,10 @@ linters-settings:
       - ifElseChain
       - hugeParam
 
-# Skip the codegen file entirely — it intentionally has unused params
+# Skip codegen files entirely — they intentionally have unused params
 # (body is always passed in for symmetry) and gocritic nits.
 issues:
   exclude-files:
     - services_swagger.go
+    - zgen_*.go
     - ".*\\.bak$"

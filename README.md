@@ -188,6 +188,88 @@ raw, _ := sdk.Dashboard.Call(ctx, "GET", "/dashboard/app/launcher", nil, &out)
 | `Favorite` | `/favorites/*` | User favorites |
 | `Task` | `/tasks/*` | Async task progress |
 
+## Repo layout
+
+The repo is split into per-domain files; each service type lives in
+exactly one file, and the codegen output for swagger-only services goes
+to a `zgen_<group>.go` file (the `z` prefix sorts the file last in
+directory listings, so hand-written files keep their natural alphabetic
+order).
+
+```
+1panel-sdk/
+├── client/                 # low-level HTTP client (cookie, CSRF, /api/v2)
+│   ├── client.go
+│   ├── auth_helpers.go
+│   ├── types.go
+│   ├── client_test.go
+│   └── client_bench_test.go
+├── scripts/
+│   ├── gen-from-swagger.py   # 1Panel swagger.json -> zgen_*.go
+│   ├── split-by-section.py  # one-time split of container.go / database.go
+│   ├── split-services2.py   # one-time split of services2.go
+│   ├── split-services.py    # one-time split of services.go
+│   ├── split-types.py       # one-time split of multi-type files
+│   └── use-helpers.py       # one-time 4-line -> 1-line method rewrite
+├── auth.go                  # AuthService (/core/auth/*)
+├── dashboard.go             # DashboardService
+├── host.go                  # HostService
+├── host_ssh.go              # SSHService
+├── host_monitor.go          # MonitorService
+├── host_firewall.go         # FirewallService
+├── container_crud.go        # ContainerService — CRUD
+├── container_files.go       # container file ops
+├── container_image.go       # image CRUD
+├── container_repo.go        # image registry
+├── container_compose.go     # compose projects
+├── container_compose_template.go
+├── container_network.go
+├── container_volume.go
+├── container_daemon.go      # docker daemon.json
+├── app.go                   # AppService
+├── website.go               # WebsiteService + 5 sub-services
+├── database_mysql.go        # MySQL
+├── database_postgres.go     # PostgreSQL
+├── database_mongodb.go      # MongoDB
+├── database_redis.go        # Redis
+├── database_common.go       # per-DB-engine helpers
+├── backup.go                # BackupService
+├── cronjob.go               # CronjobService
+├── file.go                  # FileService
+├── settings.go              # SettingsService
+├── snapshot.go              # SnapshotService
+├── logs.go                  # LogsService
+├── groups.go                # GroupsService
+├── commands.go              # CommandsService
+├── script.go                # ScriptService
+├── toolbox.go               # ToolboxService
+├── alerts.go                # AlertsService
+├── ai.go                    # AIService
+├── agents.go                # AgentsService
+├── nginx.go                 # NginxService
+├── process.go               # ProcessService
+├── runtime.go               # RuntimeService
+├── favorite.go              # FavoriteService
+├── task.go                  # TaskService
+├── zgen_<group>.go          # GENERATED — one file per swagger service group
+├── services.go              # 1KB stub (split documentation)
+├── services2.go             # 1KB stub (split documentation)
+├── services_swagger.go      # 200B stub (split documentation)
+├── onepanel.go              # SDK entry point
+├── types.go                 # PageInfo / Req / Operate / ServiceBase
+├── doc.go                   # package-level godoc
+├── example/                 # runnable demo
+├── example_test.go          # godoc Example* + httptest fake
+├── sdk_test.go              # 8 integration tests
+├── go.mod, go.sum
+├── Makefile                 # 14 targets
+├── .golangci.yml            # lint v2 config
+├── README.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+└── LICENSE
+```
+
 ## Manual session (no auto-login)
 
 ```go
