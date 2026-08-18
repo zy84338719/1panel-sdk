@@ -65,7 +65,7 @@ func TestAPIV2PrefixNotDuplicated(t *testing.T) {
 	var gotPath string
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		gotPath = r.URL.Path
-		_, _ = io.WriteString(w, `{"code":0,"message":"ok","data":{}}`)
+		_, _ = io.WriteString(w, `{"code":200,"message":"ok","data":{}}`)
 	}))
 	defer ts.Close()
 
@@ -83,7 +83,7 @@ func TestEntranceCodeHeader(t *testing.T) {
 	var gotEntrance string
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		gotEntrance = r.Header.Get("EntranceCode")
-		_, _ = io.WriteString(w, `{"code":0,"message":"ok"}`)
+		_, _ = io.WriteString(w, `{"code":200,"message":"ok"}`)
 	}))
 	defer ts.Close()
 
@@ -108,7 +108,7 @@ func TestCSRFTokenOnNonSafeMethods(t *testing.T) {
 			// also send a csrf cookie so the client picks it up
 			http.SetCookie(w, &http.Cookie{Name: "pcsrftoken", Value: "tok-123", Path: "/"})
 		}
-		_, _ = io.WriteString(w, `{"code":0,"message":"ok"}`)
+		_, _ = io.WriteString(w, `{"code":200,"message":"ok"}`)
 	}))
 	defer ts.Close()
 
@@ -133,7 +133,7 @@ func TestGETHasNoCSRF(t *testing.T) {
 	var csrfOnGet string
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		csrfOnGet = r.Header.Get("X-CSRF-Token")
-		_, _ = io.WriteString(w, `{"code":0,"message":"ok"}`)
+		_, _ = io.WriteString(w, `{"code":200,"message":"ok"}`)
 	}))
 	defer ts.Close()
 
@@ -198,7 +198,7 @@ func TestCurrentNodeHeader(t *testing.T) {
 	var gotNode string
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		gotNode = r.Header.Get("CurrentNode")
-		_, _ = io.WriteString(w, `{"code":0,"message":"ok"}`)
+		_, _ = io.WriteString(w, `{"code":200,"message":"ok"}`)
 	}))
 	defer ts.Close()
 
@@ -216,7 +216,7 @@ func TestOnNodeOverride(t *testing.T) {
 	var gotNode string
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		gotNode = r.Header.Get("CurrentNode")
-		_, _ = io.WriteString(w, `{"code":0,"message":"ok"}`)
+		_, _ = io.WriteString(w, `{"code":200,"message":"ok"}`)
 	}))
 	defer ts.Close()
 
@@ -235,7 +235,7 @@ func TestAcceptLanguageHeader(t *testing.T) {
 	var gotLang string
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		gotLang = r.Header.Get("Accept-Language")
-		_, _ = io.WriteString(w, `{"code":0,"message":"ok"}`)
+		_, _ = io.WriteString(w, `{"code":200,"message":"ok"}`)
 	}))
 	defer ts.Close()
 
@@ -252,7 +252,7 @@ func TestUserAgent(t *testing.T) {
 	var gotUA string
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		gotUA = r.Header.Get("User-Agent")
-		_, _ = io.WriteString(w, `{"code":0,"message":"ok"}`)
+		_, _ = io.WriteString(w, `{"code":200,"message":"ok"}`)
 	}))
 	defer ts.Close()
 
@@ -269,7 +269,7 @@ func TestDoAndBaseDo(t *testing.T) {
 	var hits int32
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		atomic.AddInt32(&hits, 1)
-		_, _ = io.WriteString(w, `{"code":0,"message":"ok","data":{}}`)
+		_, _ = io.WriteString(w, `{"code":200,"message":"ok","data":{}}`)
 	}))
 	defer ts.Close()
 
@@ -292,7 +292,7 @@ func TestCookiesAndCSRFAfterLogin(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.SetCookie(w, &http.Cookie{Name: "1p_session", Value: "sess-1", Path: "/"})
 		http.SetCookie(w, &http.Cookie{Name: "pcsrftoken", Value: "csrf-1", Path: "/"})
-		_, _ = io.WriteString(w, `{"code":0,"message":"ok","data":{"name":"a","role":"r","token":"t","mfaStatus":"off"}}`)
+		_, _ = io.WriteString(w, `{"code":200,"message":"ok","data":{"name":"a","role":"r","token":"t","mfaStatus":"off"}}`)
 	}))
 	defer ts.Close()
 

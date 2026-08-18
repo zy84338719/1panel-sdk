@@ -67,6 +67,18 @@ type Options struct {
 	// OnLogin is invoked right after a successful login so callers can persist
 	// the cookie jar or refresh tokens.
 	OnLogin func(*client.LoginResult)
+
+	// APIKey enables the header-based auth scheme documented at
+	// https://1panel.cn/docs/v2/dev_manual/api_manual/#22-token. When set the
+	// SDK does not call Login; each request carries 1Panel-Token and
+	// 1Panel-Timestamp headers. Mutually exclusive with Username/Password
+	// (use the one that matches how the panel issued your key).
+	APIKey string
+
+	// APISignMethod selects the signature algorithm for APIKey auth. Empty
+	// (the default) and "hmac-sha256" both use HMAC-SHA256 — the recommended
+	// algorithm. Set to "md5" for legacy 1Panel installations.
+	APISignMethod string
 }
 
 // SDK bundles a configured client and all sub-services.
@@ -124,20 +136,28 @@ type SDK struct {
 }
 
 // New constructs a SDK. If Username+Password are set, it performs the initial
-// login. The login honors MFA via the Options.MFA field when present.
+// login. If APIKey is set instead, the client is configured for header-based
+// auth and no login is performed. The two modes are mutually exclusive — pick
+// the one that matches how the panel issued your key.
 func New(opt Options) (*SDK, error) {
 	c, err := client.New(client.Config{
-		BaseURL:  opt.BaseURL,
-		Endpoint: opt.Endpoint,
-		Entrance: opt.Entrance,
-		Language: opt.Language,
-		NodeID:   opt.NodeID,
+		BaseURL:       opt.BaseURL,
+		Endpoint:      opt.Endpoint,
+		Entrance:      opt.Entrance,
+		Language:      opt.Language,
+		NodeID:        opt.NodeID,
+		APIKey:        opt.APIKey,
+		APISignMethod: opt.APISignMethod,
 	})
 	if err != nil {
 		return nil, err
 	}
 	s := &SDK{C: c}
 	s.bind(c)
+	if opt.APIKey != "" {
+		// Header-based auth — no login needed.
+		return s, nil
+	}
 	if opt.Username != "" && opt.Password != "" {
 		login, err := s.Auth.Login(LoginForm{
 			Name:     opt.Username,

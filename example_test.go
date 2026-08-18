@@ -65,11 +65,11 @@ func TestExampleFakesup(t *testing.T) {
 		http.SetCookie(w, &http.Cookie{Name: "1p_session", Value: "x", Path: "/"})
 		http.SetCookie(w, &http.Cookie{Name: "pcsrftoken", Value: "c", Path: "/"})
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"code":0,"message":"ok","data":{"name":"a","role":"r","token":"t","mfaStatus":"off"}}`))
+		_, _ = w.Write([]byte(`{"code":200,"message":"ok","data":{"name":"a","role":"r","token":"t","mfaStatus":"off"}}`))
 	})
 	panel.HandleFunc("/api/v2/dashboard/base/os", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"code":0,"message":"ok","data":{"os":"linux"}}`))
+		_, _ = w.Write([]byte(`{"code":200,"message":"ok","data":{"os":"linux"}}`))
 	})
 	ts := httptest.NewServer(panel)
 	defer ts.Close()

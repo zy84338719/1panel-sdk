@@ -17,14 +17,14 @@ func (s *MonitorService) CleanMonitor(ctx context.Context, body map[string]any) 
 return s.postMap(ctx, "/hosts/monitor/clean", body)
 }
 
-// NetworkOptions returns the network monitor options.
-func (s *MonitorService) NetworkOptions(ctx context.Context) (map[string]any, error) {
-return s.getMap(ctx, "/hosts/monitor/netoptions")
+// NetworkOptions returns the network monitor options as a JSON array.
+func (s *MonitorService) NetworkOptions(ctx context.Context) ([]any, error) {
+	return s.GetList(ctx, "/hosts/monitor/netoptions")
 }
 
-// IOOptions returns the disk-IO monitor options.
-func (s *MonitorService) IOOptions(ctx context.Context) (map[string]any, error) {
-return s.getMap(ctx, "/hosts/monitor/iooptions")
+// IOOptions returns the disk-IO monitor options as a JSON array.
+func (s *MonitorService) IOOptions(ctx context.Context) ([]any, error) {
+	return s.GetList(ctx, "/hosts/monitor/iooptions")
 }
 
 // LoadMonitorSetting returns the monitor configuration.

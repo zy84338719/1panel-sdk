@@ -129,3 +129,35 @@ func (b *ServiceBase) postMap(ctx context.Context, path string, body any) (map[s
 	}
 	return out, nil
 }
+
+// getList decodes a JSON array response. Some 1Panel endpoints (e.g.
+// /dashboard/app/launcher, /groups/search) return their data field as a
+// top-level array rather than an object, so getMap cannot be used. Use
+// getList for those, or call Get/Post directly with a typed slice via Do.
+func (b *ServiceBase) getList(ctx context.Context, path string) ([]any, error) {
+	var out []any
+	if err := b.Get(ctx, path, &out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// postList is the POST counterpart of getList.
+func (b *ServiceBase) postList(ctx context.Context, path string, body any) ([]any, error) {
+	var out []any
+	if err := b.Post(ctx, path, body, &out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GetList is the public, exported alias of getList. Use it for endpoints
+// whose data field is a top-level array rather than an object.
+func (b *ServiceBase) GetList(ctx context.Context, path string) ([]any, error) {
+	return b.getList(ctx, path)
+}
+
+// PostList is the public, exported alias of postList.
+func (b *ServiceBase) PostList(ctx context.Context, path string, body any) ([]any, error) {
+	return b.postList(ctx, path, body)
+}

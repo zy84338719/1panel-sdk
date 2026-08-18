@@ -54,9 +54,11 @@ func (s *AIAccountService) POSTAccountsModelsUpdate(ctx context.Context, body an
 	return s.postMap(ctx, "/ai/accounts/models/update", body)
 }
 
-// GETAccountsProviders — Get model account providers (GET /ai/accounts/providers)
-func (s *AIAccountService) GETAccountsProviders(ctx context.Context) (map[string]any, error) {
-	return s.getMap(ctx, "/ai/accounts/providers")
+// GETAccountsProviders — Get model account providers (GET /ai/accounts/providers).
+// Returns a top-level array of provider DTOs — use GetList or decode into
+// a typed []dto.ProviderInfo.
+func (s *AIAccountService) GETAccountsProviders(ctx context.Context) ([]any, error) {
+	return s.getList(ctx, "/ai/accounts/providers")
 }
 
 // POSTAccountsSearch — Page model accounts (POST /ai/accounts/search)

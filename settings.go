@@ -132,9 +132,13 @@ func (s *SettingsService) DescriptionSave(ctx context.Context, body map[string]a
 return s.postMap(ctx, "/settings/description/save", body)
 }
 
-// BaseDir returns the panel's base directory.
-func (s *SettingsService) BaseDir(ctx context.Context) (map[string]any, error) {
-return s.getMap(ctx, "/settings/basedir")
+// BaseDir returns the panel's base directory as a plain string.
+func (s *SettingsService) BaseDir(ctx context.Context) (string, error) {
+	var out string
+	if err := s.Get(ctx, "/settings/basedir", &out); err != nil {
+		return "", err
+	}
+	return out, nil
 }
 
 // CheckLocalConn tests the local SSH connection.

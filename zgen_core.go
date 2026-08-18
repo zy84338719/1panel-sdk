@@ -319,9 +319,10 @@ func (s *CoreSettingsService) POSTSettingsBindUpdate(ctx context.Context, body a
 	return s.postMap(ctx, "/core/settings/bind/update", body)
 }
 
-// GETSettingsInterface — Load system address (GET /core/settings/interface)
-func (s *CoreSettingsService) GETSettingsInterface(ctx context.Context) (map[string]any, error) {
-	return s.getMap(ctx, "/core/settings/interface")
+// GETSettingsInterface — Load system address (GET /core/settings/interface).
+// Returns a top-level array of interface names — use GetList.
+func (s *CoreSettingsService) GETSettingsInterface(ctx context.Context) ([]any, error) {
+	return s.getList(ctx, "/core/settings/interface")
 }
 
 // GETSettingsMemo — Load dashboard memo (GET /core/settings/memo)

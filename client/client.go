@@ -45,11 +45,19 @@ type Result struct {
 	TraceID string          `json:"trace_id,omitempty"`
 }
 
-// Common codes observed in the panel (see core/buserr and middleware).
+// Common codes observed in the panel (see core/app/api/v2/helper/helper.go).
+//
+// 1Panel v2 puts the HTTP status code into the envelope's "code" field, so
+// the success code is 200 (matching http.StatusOK) and errors mirror HTTP
+// statuses: 400 (bad request), 401 (unauthenticated), 403 (forbidden),
+// 500 (internal). A handful of business flows override the status with a
+// custom code (e.g. 313 for password-expired middleware).
 const (
-	CodeSuccess          = 0
-	CodeAuthFail         = 401
-	CodeForbidden        = 403
+	CodeSuccess          = http.StatusOK // 200
+	CodeAuthFail         = http.StatusUnauthorized // 401
+	CodeForbidden        = http.StatusForbidden // 403
+	CodeBadRequest       = http.StatusBadRequest // 400
+	CodeInternalError    = http.StatusInternalServerError // 500
 	CodePasswordExpired  = 313
 	CodeNodeUnbind       = 433
 	CodeLoading          = 434
@@ -105,6 +113,17 @@ type Config struct {
 	// NodeID is the default node id sent in the "CurrentNode" header for node-facing APIs.
 	// Empty means "local" (the master node).
 	NodeID string
+
+	// APIKey enables header-based auth (the official 1Panel "API 接口" mechanism).
+	// When set, every request gets "1Panel-Timestamp" and "1Panel-Token" headers
+	// computed from the key. Mutually exclusive with username/password login —
+	// the two flows produce different cookies / no cookies.
+	APIKey string
+
+	// APISignMethod selects the algorithm used to compute 1Panel-Token. Empty
+	// (the default) and "hmac-sha256" both use HMAC-SHA256, which is the
+	// recommended algorithm. Set to "md5" only for legacy 1Panel installations.
+	APISignMethod string
 }
 
 // Client is the low-level HTTP client used by the high-level SDK.
@@ -224,14 +243,23 @@ func (c *Client) doWithNode(ctx context.Context, method, path string, body any, 
 		req.Header.Set("Content-Type", "application/json")
 	}
 
-	// CSRF token for non-safe methods.
-	if !isSafeMethod(method) {
+	// CSRF token for non-safe methods. Skipped when API key auth is in use:
+	// the two auth mechanisms are independent in 1Panel, and CSRF only applies
+	// to the session/cookie flow.
+	if c.cfg.APIKey == "" && !isSafeMethod(method) {
 		if c.csrfToken == "" {
 			c.SyncCSRF()
 		}
 		if c.csrfToken != "" {
 			req.Header.Set("X-CSRF-Token", c.csrfToken)
 		}
+	}
+
+	// API key auth: each request carries a fresh timestamp and a signed token.
+	if c.cfg.APIKey != "" {
+		ts := currentTimestamp()
+		req.Header.Set("1Panel-Timestamp", ts)
+		req.Header.Set("1Panel-Token", c.Sign(c.cfg.APIKey, ts))
 	}
 
 	resp, err := c.hc.Do(req)

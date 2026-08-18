@@ -5,9 +5,34 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+- **API key auth** (header-based, the official machine-to-machine flow):
+  `client.Config.APIKey` + `APISignMethod` (`hmac-sha256` default, `md5`
+  legacy). When set, every request carries `1Panel-Timestamp` and
+  `1Panel-Token` headers, and `X-CSRF-Token` is skipped (the two flows
+  are independent in 1Panel). Exposed as `onepanel.Options.APIKey` for
+  one-shot construction. Matches the spec at
+  https://1panel.cn/docs/v2/dev_manual/api_manual/#22-token.
+- `ServiceBase.GetList` / `PostList` helpers (plus unexported `getList` /
+  `postList` for the codegen) for endpoints whose `data` field is a
+  top-level array (e.g. `/dashboard/app/launcher`, `/groups/search`).
+- `client.SignToken` exported helper for callers that need to compute the
+  same signature themselves (proxies, custom transports, verification).
+- `example/verify/` integration program that probes a live 1Panel server
+  with API key auth and reports each endpoint's status.
+
 ### Changed
-- `client.PageInfo` removed; the canonical pagination body is `onepanel.PageInfo`
-  at the top-level package. Imports do not change.
+- **`CodeSuccess` is now `http.StatusOK` (200)**, matching the real 1Panel
+  v2 protocol. The panel puts the HTTP status into the envelope's `code`
+  field — `200` for success, `400/401/500` for the usual HTTP errors. The
+  old `0` was a wrong guess carried from an early read. Added
+  `CodeBadRequest` and `CodeInternalError` as aliases for the new
+  standard codes. `CodeAuthFail` (401), `CodeForbidden` (403), and the
+  business codes 313/408/410/433/434 are preserved.
+- `client.New` now accepts `Config.APIKey` and `Config.APISignMethod`.
+  The HTTP client adds the signing headers in `doWithNode` so the
+  middleware path is identical for all four verbs.
+- Test fixtures updated to return `code: 200` on success.
 
 ### Added
 - Per-domain service files: `app.go`, `website.go`, `database.go`,
