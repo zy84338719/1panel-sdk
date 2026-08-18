@@ -8,7 +8,7 @@ GO          ?= go
 GOLANGCI    ?= golangci-lint
 BIN_DIR     ?= bin
 
-.PHONY: help build test test-race cover lint fmt vet codegen clean tidy all
+.PHONY: help build test test-race bench cover lint lint-fix lint-clean fmt vet codegen clean tidy all doc
 
 help: ## Show this help.
 	@awk 'BEGIN {FS = ":.*##"; printf "Usage: make \033[36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
@@ -23,9 +23,15 @@ test: ## Run all unit tests.
 test-race: ## Run tests with the race detector.
 	$(GO) test -count=1 -race ./...
 
+bench: ## Run benchmarks (use `make bench` and check the file for output).
+	$(GO) test -bench=. -benchmem -run='^$' ./...
+
 cover: ## Print test coverage to stdout.
 	$(GO) test -coverprofile=cover.out -coverpkg=./... ./...
 	$(GO) tool cover -func=cover.out | tail -1
+
+doc: ## Print the godoc package overview.
+	$(GO) doc -all . | head -120
 
 lint: ## Run golangci-lint (requires `go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest`).
 	$(GOLANGCI) run ./...

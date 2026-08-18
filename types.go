@@ -2,7 +2,8 @@ package onepanel
 
 import "context"
 
-// PageInfo is the standard pagination request body used by 1Panel /search endpoints.
+// PageInfo is the standard pagination request body used by 1Panel /search
+// endpoints. Page is 1-based; PageSize caps the response.
 type PageInfo struct {
 	Page     int    `json:"page"`
 	PageSize int    `json:"pageSize"`
@@ -10,13 +11,18 @@ type PageInfo struct {
 	Order    string `json:"order,omitempty"`
 }
 
-// Page[T] is the standard pagination response envelope.
+// Page[T] is the standard pagination response envelope. Decode into a
+// Page[T] when an endpoint returns {items, total}. Most SDK helpers do
+// this for you and yield a map[string]any — use Page[T] only when you
+// want typed decoding of the items slice.
 type Page[T any] struct {
 	Items []T   `json:"items"`
 	Total int64 `json:"total"`
 }
 
-// Req is the most common 1Panel request envelope used by "search" style endpoints.
+// Req is the most common 1Panel request envelope used by "search"-style
+// endpoints. The Info/Name/Filters/OrderBy/Order fields cover the
+// majority of paginated list endpoints in the 1Panel core/agent API.
 type Req struct {
 	Page     int    `json:"page"`
 	PageSize int    `json:"pageSize"`
@@ -28,7 +34,7 @@ type Req struct {
 }
 
 // Operate wraps a generic operation request body. Many endpoints accept
-// "operation" + an id/name payload.
+// "operation" + an id/name payload (e.g. start/stop/restart/...).
 type Operate struct {
 	Operation string `json:"operation"`
 	ID        uint   `json:"id,omitempty"`

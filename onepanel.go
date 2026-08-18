@@ -16,7 +16,7 @@
 //	if err != nil { log.Fatal(err) }
 //
 //	// ... call any method on c.Auth, c.Host, c.Container, ...
-//	hosts, _ := c.Host.SearchHosts(ctx, client.PageInfo{Page: 1, PageSize: 20})
+//	hosts, _ := c.Host.SearchHosts(ctx, onepanel.PageInfo{Page: 1, PageSize: 20})
 //
 // # Endpoints covered
 //

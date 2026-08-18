@@ -37,13 +37,10 @@ type IDsBody struct {
 	IDs []uint `json:"ids"`
 }
 
-// PageInfo just an alias for the panel's pagination request fields.
-type PageInfo struct {
-	Page     int    `json:"page"`
-	PageSize int    `json:"pageSize"`
-	OrderBy  string `json:"orderBy,omitempty"`
-	Order    string `json:"order,omitempty"`
-}
+// PageInfo is intentionally not defined here. The SDK exposes
+// onepanel.PageInfo at the top level; importing client.PageInfo would
+// duplicate the type and confuse users. Callers that need a pagination
+// request body should construct it via onepanel.PageInfo.
 
 // RawData unmarshals a Result.Data into a map without losing precision.
 func RawData(result *Result) (map[string]any, error) {
