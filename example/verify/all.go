@@ -20,7 +20,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/zy84338719/go-1panel"
+	onepanel "github.com/zy84338719/go-1panel"
 	"github.com/zy84338719/go-1panel/client"
 )
 
@@ -55,11 +55,11 @@ func main() {
 	fmt.Printf("→ %d concurrent workers\n\n", *workers)
 
 	type result struct {
-		name    string
-		service string
+		name     string
+		service  string
 		category string
-		dur     time.Duration
-		err     error
+		dur      time.Duration
+		err      error
 	}
 	results := make(chan result, len(probes))
 

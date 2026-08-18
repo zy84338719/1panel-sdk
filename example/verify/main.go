@@ -1,9 +1,10 @@
 // Verify the SDK against a real 1Panel server using API key auth.
 //
 // Usage:
-//   go run ./example/verify \
-//     -url http://192.168.108.235:55555 \
-//     -key "0HeE0VPfS2TY5N1ILGgE322McU7hRdmz"
+//
+//	go run ./example/verify \
+//	  -url http://192.168.108.235:55555 \
+//	  -key "0HeE0VPfS2TY5N1ILGgE322McU7hRdmz"
 package main
 
 import (
@@ -15,16 +16,16 @@ import (
 	"os"
 	"time"
 
-	"github.com/zy84338719/go-1panel"
+	onepanel "github.com/zy84338719/go-1panel"
 	"github.com/zy84338719/go-1panel/client"
 )
 
 func main() {
 	var (
-		baseURL  = flag.String("url", "http://192.168.108.235:55555", "1Panel base URL")
-		key      = flag.String("key", "", "API key from the panel")
-		signMth  = flag.String("sign", "hmac-sha256", "sign method: hmac-sha256 (default) or md5")
-		nodeID   = flag.String("node", "", "node id for node-facing APIs (default: local)")
+		baseURL    = flag.String("url", "http://192.168.108.235:55555", "1Panel base URL")
+		key        = flag.String("key", "", "API key from the panel")
+		signMth    = flag.String("sign", "hmac-sha256", "sign method: hmac-sha256 (default) or md5")
+		nodeID     = flag.String("node", "", "node id for node-facing APIs (default: local)")
 		skipNoAuth = flag.Bool("skip-noauth", false, "skip the unauthenticated baseline probe")
 	)
 	flag.Parse()

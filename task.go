@@ -2,7 +2,6 @@ package onepanel
 
 import "context"
 
-
 type TaskService struct {
 	ServiceBase
 }
@@ -15,22 +14,22 @@ type SSLService = WebsiteSSLService
 
 // GetTask returns a task by id.
 func (s *TaskService) GetTask(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/tasks", body)
+	return s.postMap(ctx, "/tasks", body)
 }
 
 // ListTasks lists tasks.
 func (s *TaskService) ListTasks(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/tasks/search", body)
+	return s.postMap(ctx, "/tasks/search", body)
 }
 
 // CancelTask cancels a running task.
 func (s *TaskService) CancelTask(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/tasks/cancel", body)
+	return s.postMap(ctx, "/tasks/cancel", body)
 }
 
 // TaskLog returns the log of a task.
 func (s *TaskService) TaskLog(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/tasks/log", body)
+	return s.postMap(ctx, "/tasks/log", body)
 }
 
 // Call invokes an arbitrary /tasks/* endpoint.

@@ -2,19 +2,18 @@ package onepanel
 
 import "context"
 
-
 type ProcessService struct {
 	ServiceBase
 }
 
 // List lists processes.
 func (s *ProcessService) List(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/processes", body)
+	return s.postMap(ctx, "/processes", body)
 }
 
 // Kill terminates a process.
 func (s *ProcessService) Kill(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/processes/kill", body)
+	return s.postMap(ctx, "/processes/kill", body)
 }
 
 // Call invokes an arbitrary /processes/* endpoint.
@@ -23,4 +22,3 @@ func (s *ProcessService) Call(ctx context.Context, method, path string, body, ou
 }
 
 // RuntimeService covers /hosts/diagnostics/* (runtime diagnostics).
-

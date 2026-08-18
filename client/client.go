@@ -53,10 +53,10 @@ type Result struct {
 // 500 (internal). A handful of business flows override the status with a
 // custom code (e.g. 313 for password-expired middleware).
 const (
-	CodeSuccess          = http.StatusOK // 200
-	CodeAuthFail         = http.StatusUnauthorized // 401
-	CodeForbidden        = http.StatusForbidden // 403
-	CodeBadRequest       = http.StatusBadRequest // 400
+	CodeSuccess          = http.StatusOK                  // 200
+	CodeAuthFail         = http.StatusUnauthorized        // 401
+	CodeForbidden        = http.StatusForbidden           // 403
+	CodeBadRequest       = http.StatusBadRequest          // 400
 	CodeInternalError    = http.StatusInternalServerError // 500
 	CodePasswordExpired  = 313
 	CodeNodeUnbind       = 433

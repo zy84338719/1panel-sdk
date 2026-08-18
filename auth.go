@@ -59,122 +59,122 @@ func (s *AuthService) Logout(ctx context.Context) error {
 
 // Captcha fetches a captcha image. The result carries an imagePath, captchaID, and length.
 func (s *AuthService) Captcha(ctx context.Context) (map[string]any, error) {
-return s.getMap(ctx, "/core/auth/captcha")
+	return s.getMap(ctx, "/core/auth/captcha")
 }
 
 // LoginSetting returns the public login-page settings.
 func (s *AuthService) LoginSetting(ctx context.Context) (map[string]any, error) {
-return s.getMap(ctx, "/core/auth/setting")
+	return s.getMap(ctx, "/core/auth/setting")
 }
 
 // WelcomePage returns the welcome text shown on the login screen.
 func (s *AuthService) WelcomePage(ctx context.Context) (map[string]any, error) {
-return s.getMap(ctx, "/core/auth/welcome")
+	return s.getMap(ctx, "/core/auth/welcome")
 }
 
 // MFAStatus returns the MFA state of the current user.
 func (s *AuthService) MFAStatus(ctx context.Context) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/mfa", nil)
+	return s.postMap(ctx, "/core/auth/mfa", nil)
 }
 
 // BindMFA binds a TOTP MFA token to the current user.
 func (s *AuthService) BindMFA(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/mfa/bind", body)
+	return s.postMap(ctx, "/core/auth/mfa/bind", body)
 }
 
 // CloseMFA disables MFA on the current user.
 func (s *AuthService) CloseMFA(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/mfa/close", body)
+	return s.postMap(ctx, "/core/auth/mfa/close", body)
 }
 
 // PasskeyBeginLogin starts a passkey assertion.
 func (s *AuthService) PasskeyBeginLogin(ctx context.Context) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/passkey/begin", nil)
+	return s.postMap(ctx, "/core/auth/passkey/begin", nil)
 }
 
 // PasskeyFinishLogin finishes a passkey assertion. sessionID is the value returned by PasskeyBeginLogin.
 func (s *AuthService) PasskeyFinishLogin(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/passkey/finish", body)
+	return s.postMap(ctx, "/core/auth/passkey/finish", body)
 }
 
 // PasskeyRegisterBegin starts passkey registration for the logged-in user.
 func (s *AuthService) PasskeyRegisterBegin(ctx context.Context) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/passkey/register/begin", nil)
+	return s.postMap(ctx, "/core/auth/passkey/register/begin", nil)
 }
 
 // PasskeyRegisterFinish completes passkey registration.
 func (s *AuthService) PasskeyRegisterFinish(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/passkey/register/finish", body)
+	return s.postMap(ctx, "/core/auth/passkey/register/finish", body)
 }
 
 // ListPasskeys returns the registered passkeys for the current user.
 func (s *AuthService) ListPasskeys(ctx context.Context) (map[string]any, error) {
-return s.getMap(ctx, "/core/auth/passkey/list")
+	return s.getMap(ctx, "/core/auth/passkey/list")
 }
 
 // DeletePasskey removes a passkey.
 func (s *AuthService) DeletePasskey(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/passkey/del", body)
+	return s.postMap(ctx, "/core/auth/passkey/del", body)
 }
 
 // LDAPStatus returns whether LDAP authentication is enabled.
 func (s *AuthService) LDAPStatus(ctx context.Context) (map[string]any, error) {
-return s.getMap(ctx, "/core/auth/ldap/status")
+	return s.getMap(ctx, "/core/auth/ldap/status")
 }
 
 // OIDCStatus returns the OIDC configuration status.
 func (s *AuthService) OIDCStatus(ctx context.Context) (map[string]any, error) {
-return s.getMap(ctx, "/core/auth/oidc/status")
+	return s.getMap(ctx, "/core/auth/oidc/status")
 }
 
 // OIDCBegin starts the OIDC login flow.
 func (s *AuthService) OIDCBegin(ctx context.Context) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/oidc/begin", nil)
+	return s.postMap(ctx, "/core/auth/oidc/begin", nil)
 }
 
 // OIDCFinish completes the OIDC login flow with the OIDC ticket.
 func (s *AuthService) OIDCFinish(ctx context.Context, ticket string) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/oidc/finish", map[string]string{"ticket": ticket})
+	return s.postMap(ctx, "/core/auth/oidc/finish", map[string]string{"ticket": ticket})
 }
 
 // SAML2Status returns the SAML2 configuration status.
 func (s *AuthService) SAML2Status(ctx context.Context) (map[string]any, error) {
-return s.getMap(ctx, "/core/auth/saml2/status")
+	return s.getMap(ctx, "/core/auth/saml2/status")
 }
 
 // SAML2Begin starts the SAML2 login flow.
 func (s *AuthService) SAML2Begin(ctx context.Context) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/saml2/begin", nil)
+	return s.postMap(ctx, "/core/auth/saml2/begin", nil)
 }
 
 // SAML2Finish completes the SAML2 login flow.
 func (s *AuthService) SAML2Finish(ctx context.Context, ticket string) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/saml2/finish", map[string]string{"ticket": ticket})
+	return s.postMap(ctx, "/core/auth/saml2/finish", map[string]string{"ticket": ticket})
 }
 
 // GenerateAPIKey mints a new API key for the current user.
 func (s *AuthService) GenerateAPIKey(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/api/generate", body)
+	return s.postMap(ctx, "/core/auth/api/generate", body)
 }
 
 // UpdateAPIConfig updates the API key configuration (name, scopes, expiry).
 func (s *AuthService) UpdateAPIConfig(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/api/update", body)
+	return s.postMap(ctx, "/core/auth/api/update", body)
 }
 
 // CurrentUser returns the user profile of the current session.
 func (s *AuthService) CurrentUser(ctx context.Context) (map[string]any, error) {
-return s.getMap(ctx, "/core/auth/current")
+	return s.getMap(ctx, "/core/auth/current")
 }
 
 // UpdateCurrentUser updates the current user profile.
 func (s *AuthService) UpdateCurrentUser(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/current/update", body)
+	return s.postMap(ctx, "/core/auth/current/update", body)
 }
 
 // ResetPassword changes the current user's password (used after expiry).
 func (s *AuthService) ResetPassword(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/core/auth/expired/reset", body)
+	return s.postMap(ctx, "/core/auth/expired/reset", body)
 }
 
 // === Wildcard ===

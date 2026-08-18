@@ -1,61 +1,62 @@
 package onepanel
 
 import "context"
+
 // === MongoDB ===
 
 // CreateMongodb creates a MongoDB instance.
 func (s *DatabaseService) CreateMongodb(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/databases/mongodb", body)
+	return s.postMap(ctx, "/databases/mongodb", body)
 }
 
 // SearchMongodb searches MongoDB instances.
 func (s *DatabaseService) SearchMongodb(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/databases/mongodb/search", body)
+	return s.postMap(ctx, "/databases/mongodb/search", body)
 }
 
 // UpdateMongodbDescription updates the description.
 func (s *DatabaseService) UpdateMongodbDescription(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/databases/mongodb/description", body)
+	return s.postMap(ctx, "/databases/mongodb/description", body)
 }
 
 // LoadMongodbFromRemote loads a MongoDB DB from a remote server.
 func (s *DatabaseService) LoadMongodbFromRemote(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/databases/mongodb/load", body)
+	return s.postMap(ctx, "/databases/mongodb/load", body)
 }
 
 // BindMongodbUser binds a user to a database.
 func (s *DatabaseService) BindMongodbUser(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/databases/mongodb/bind", body)
+	return s.postMap(ctx, "/databases/mongodb/bind", body)
 }
 
 // ChangeMongodbPassword changes the user password.
 func (s *DatabaseService) ChangeMongodbPassword(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/databases/mongodb/password", body)
+	return s.postMap(ctx, "/databases/mongodb/password", body)
 }
 
 // ChangeMongodbRootPassword changes the root password.
 func (s *DatabaseService) ChangeMongodbRootPassword(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/databases/mongodb/root/password", body)
+	return s.postMap(ctx, "/databases/mongodb/root/password", body)
 }
 
 // LoadMongodbPrivileges loads current mongodb privileges.
 func (s *DatabaseService) LoadMongodbPrivileges(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/databases/mongodb/privileges", body)
+	return s.postMap(ctx, "/databases/mongodb/privileges", body)
 }
 
 // ChangeMongodbPrivileges updates mongodb privileges.
 func (s *DatabaseService) ChangeMongodbPrivileges(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/databases/mongodb/privileges/change", body)
+	return s.postMap(ctx, "/databases/mongodb/privileges/change", body)
 }
 
 // DeleteCheckMongodb pre-flight check.
 func (s *DatabaseService) DeleteCheckMongodb(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/databases/mongodb/del/check", body)
+	return s.postMap(ctx, "/databases/mongodb/del/check", body)
 }
 
 // DeleteMongodb deletes a MongoDB instance.
 func (s *DatabaseService) DeleteMongodb(ctx context.Context, body map[string]any) (map[string]any, error) {
-return s.postMap(ctx, "/databases/mongodb/del", body)
+	return s.postMap(ctx, "/databases/mongodb/del", body)
 }
 
 // Call invokes an arbitrary /databases/* endpoint.
@@ -77,5 +78,3 @@ func itoa(u uint) string {
 	}
 	return string(buf[i:])
 }
-
-
