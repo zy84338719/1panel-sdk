@@ -40,6 +40,5 @@ linters-settings:
 # (body is always passed in for symmetry) and gocritic nits.
 issues:
   exclude-files:
-    - services_swagger.go
     - zgen_*.go
     - ".*\\.bak$"

@@ -95,6 +95,8 @@ func (b *ServiceBase) Call(ctx context.Context, method, path string, body, out a
 }
 
 // getMap issues a GET and decodes the response into a *map[string]any.
+
+// getMap issues a GET and decodes the response into a *map[string]any.
 // Every typed helper in the SDK funnels through this or postMap to keep
 // call sites uniform:
 //
@@ -110,7 +112,7 @@ func (b *ServiceBase) Call(ctx context.Context, method, path string, body, out a
 //
 // but reads as a single line. Both helpers are used heavily by both the
 // hand-written typed methods and the codegen-generated per-endpoint
-// wrappers in services_swagger.go.
+// wrappers in the zgen_*.go files.
 func (b *ServiceBase) getMap(ctx context.Context, path string) (map[string]any, error) {
 	var out map[string]any
 	if err := b.Get(ctx, path, &out); err != nil {

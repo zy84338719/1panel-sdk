@@ -43,12 +43,24 @@ fmt: ## Run gofmt -s and goimports.
 vet: ## Run go vet.
 	$(GO) vet ./...
 
-codegen: ## Regenerate services_swagger.go from 1Panel's swagger.json.
+codegen: ## Regenerate zgen_*.go from 1Panel's swagger.json.
 	python3 scripts/gen-from-swagger.py
 	$(GO) build ./...
 
-split: ## Re-split services2.go into per-domain files (one-time).
+split: ## One-time splits (re-runnable, idempotent). See SPLIT.md.
+	python3 scripts/split-services.py
 	python3 scripts/split-services2.py
+	python3 scripts/split-by-section.py container
+	python3 scripts/split-by-section.py database
+	python3 scripts/split-types.py ai_agents
+	python3 scripts/split-types.py host_extra
+	python3 scripts/split-types.py nginx_process_runtime
+	python3 scripts/split-types.py snapshot_favorite_task
+	python3 scripts/split-types.py toolbox_alerts
+	python3 scripts/split-types.py settings_logs
+	python3 scripts/split-types.py backup_cronjob
+	python3 scripts/split-types.py groups_commands_script
+	python3 scripts/use-helpers.py
 	$(GO) build ./...
 
 tidy: ## Tidy go.mod files.

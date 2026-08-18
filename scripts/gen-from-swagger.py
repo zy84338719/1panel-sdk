@@ -26,7 +26,7 @@ from collections import defaultdict
 from pathlib import Path
 
 SWAGGER = Path('/tmp/1panel-ref/1Panel/core/cmd/server/docs/swagger.json')
-OUT = Path('services_swagger.go')
+# Output: one zgen_<group>.go per swagger service group.
 
 with SWAGGER.open() as f:
     swag = json.load(f)
@@ -386,12 +386,9 @@ for fname, buf in file_buffers.items():
     body = ''.join(buf)
     Path(fname).write_text(body)
 
-# Replace the old monolithic services_swagger.go with a one-line stub.
-OUT.write_text(
-    '// services_swagger.go used to host the per-endpoint codegen output.\n'
-    '// The generator now emits one zgen_<group>.go file per service, see\n'
-    '// scripts/gen-from-swagger.py for the mapping.\npackage onepanel\n'
-)
+# Split history lives in SPLIT.md now; no monolithic stub file is
+# written. (Earlier revisions kept a one-line services_swagger.go stub,
+# but it was redundant with the per-zgen file naming.)
 
 total_methods = sum(len(v) for v in by_service_all.values())
 print(f'wrote {len(file_buffers)} zgen_*.go files with {total_methods} methods across {len(by_service_all)} services')
