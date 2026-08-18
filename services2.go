@@ -1891,7 +1891,7 @@ type AgentsService struct {
 // Create creates an agent.
 func (s *AgentsService) Create(ctx context.Context, body map[string]any) (map[string]any, error) {
 	var out map[string]any
-	if err := s.Post(ctx, "/agents", body, &out); err != nil {
+	if err := s.Post(ctx, "/ai/agents", body, &out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -1900,7 +1900,7 @@ func (s *AgentsService) Create(ctx context.Context, body map[string]any) (map[st
 // BatchInstall installs agents in batch.
 func (s *AgentsService) BatchInstall(ctx context.Context, body map[string]any) (map[string]any, error) {
 	var out map[string]any
-	if err := s.Post(ctx, "/agents/batch/install", body, &out); err != nil {
+	if err := s.Post(ctx, "/ai/agents/batch/install", body, &out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -1909,7 +1909,7 @@ func (s *AgentsService) BatchInstall(ctx context.Context, body map[string]any) (
 // BatchUpgrade upgrades agents in batch.
 func (s *AgentsService) BatchUpgrade(ctx context.Context, body map[string]any) (map[string]any, error) {
 	var out map[string]any
-	if err := s.Post(ctx, "/agents/batch/upgrade", body, &out); err != nil {
+	if err := s.Post(ctx, "/ai/agents/batch/upgrade", body, &out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -1918,7 +1918,7 @@ func (s *AgentsService) BatchUpgrade(ctx context.Context, body map[string]any) (
 // Search searches agents.
 func (s *AgentsService) Search(ctx context.Context, body map[string]any) (map[string]any, error) {
 	var out map[string]any
-	if err := s.Post(ctx, "/agents/search", body, &out); err != nil {
+	if err := s.Post(ctx, "/ai/agents/search", body, &out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -1927,7 +1927,7 @@ func (s *AgentsService) Search(ctx context.Context, body map[string]any) (map[st
 // DeleteCheck pre-flight check for agent deletion.
 func (s *AgentsService) DeleteCheck(ctx context.Context, body map[string]any) (map[string]any, error) {
 	var out map[string]any
-	if err := s.Post(ctx, "/agents/delete/check", body, &out); err != nil {
+	if err := s.Post(ctx, "/ai/agents/delete/check", body, &out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -1936,7 +1936,7 @@ func (s *AgentsService) DeleteCheck(ctx context.Context, body map[string]any) (m
 // Delete deletes an agent.
 func (s *AgentsService) Delete(ctx context.Context, body map[string]any) (map[string]any, error) {
 	var out map[string]any
-	if err := s.Post(ctx, "/agents/delete", body, &out); err != nil {
+	if err := s.Post(ctx, "/ai/agents/delete", body, &out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -1945,7 +1945,7 @@ func (s *AgentsService) Delete(ctx context.Context, body map[string]any) (map[st
 // ResetToken resets an agent's access token.
 func (s *AgentsService) ResetToken(ctx context.Context, body map[string]any) (map[string]any, error) {
 	var out map[string]any
-	if err := s.Post(ctx, "/agents/token/reset", body, &out); err != nil {
+	if err := s.Post(ctx, "/ai/agents/token/reset", body, &out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -1954,7 +1954,7 @@ func (s *AgentsService) ResetToken(ctx context.Context, body map[string]any) (ma
 // Overview returns the agent overview.
 func (s *AgentsService) Overview(ctx context.Context, body map[string]any) (map[string]any, error) {
 	var out map[string]any
-	if err := s.Post(ctx, "/agents/overview", body, &out); err != nil {
+	if err := s.Post(ctx, "/ai/agents/overview", body, &out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -1963,7 +1963,7 @@ func (s *AgentsService) Overview(ctx context.Context, body map[string]any) (map[
 // Remark updates an agent's remark.
 func (s *AgentsService) Remark(ctx context.Context, body map[string]any) (map[string]any, error) {
 	var out map[string]any
-	if err := s.Post(ctx, "/agents/remark", body, &out); err != nil {
+	if err := s.Post(ctx, "/ai/agents/remark", body, &out); err != nil {
 		return nil, err
 	}
 	return out, nil

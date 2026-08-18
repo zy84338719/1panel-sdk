@@ -91,7 +91,22 @@ type SDK struct {
 	Toolbox     *ToolboxService
 	Alerts      *AlertsService
 	AI          *AIService
+	Agent       *AgentsService // alias kept for back-compat
 	Agents      *AgentsService
+	AIAccount   *AIAccountService
+	AIAgent     *AIAgentService
+	AIDomain    *AIDomainService
+	AIMcp       *AIMcpService
+	AITensor    *AITensorService
+	CoreAuth    *CoreAuthService
+	CoreBackup  *CoreBackupsService
+	CoreCommand *CoreCommandsService
+	CoreGroup   *CoreGroupsService
+	CoreLog     *CoreLogsService
+	CoreScript  *CoreScriptService
+	CoreSetting *CoreSettingsService
+	Health      *HealthService
+	OpenResty   *OpenRestyService
 	SSH         *SSHService
 	Monitor     *MonitorService
 	Firewall    *FirewallService
@@ -180,7 +195,22 @@ func (s *SDK) bind(d doer) {
 	s.Toolbox = &ToolboxService{ServiceBase: ServiceBase{d: d}}
 	s.Alerts = &AlertsService{ServiceBase: ServiceBase{d: d}}
 	s.AI = &AIService{ServiceBase: ServiceBase{d: d}}
+	s.Agent = &AgentsService{ServiceBase: ServiceBase{d: d}}
 	s.Agents = &AgentsService{ServiceBase: ServiceBase{d: d}}
+	s.AIAccount = &AIAccountService{ServiceBase: ServiceBase{d: d}}
+	s.AIAgent = &AIAgentService{ServiceBase: ServiceBase{d: d}}
+	s.AIDomain = &AIDomainService{ServiceBase: ServiceBase{d: d}}
+	s.AIMcp = &AIMcpService{ServiceBase: ServiceBase{d: d}}
+	s.AITensor = &AITensorService{ServiceBase: ServiceBase{d: d}}
+	s.CoreAuth = &CoreAuthService{ServiceBase: ServiceBase{d: d}}
+	s.CoreBackup = &CoreBackupsService{ServiceBase: ServiceBase{d: d}}
+	s.CoreCommand = &CoreCommandsService{ServiceBase: ServiceBase{d: d}}
+	s.CoreGroup = &CoreGroupsService{ServiceBase: ServiceBase{d: d}}
+	s.CoreLog = &CoreLogsService{ServiceBase: ServiceBase{d: d}}
+	s.CoreScript = &CoreScriptService{ServiceBase: ServiceBase{d: d}}
+	s.CoreSetting = &CoreSettingsService{ServiceBase: ServiceBase{d: d}}
+	s.Health = &HealthService{ServiceBase: ServiceBase{d: d}}
+	s.OpenResty = &OpenRestyService{ServiceBase: ServiceBase{d: d}}
 	s.SSH = &SSHService{ServiceBase: ServiceBase{d: d}}
 	s.Monitor = &MonitorService{ServiceBase: ServiceBase{d: d}}
 	s.Firewall = &FirewallService{ServiceBase: ServiceBase{d: d}}

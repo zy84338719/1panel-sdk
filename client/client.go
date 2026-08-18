@@ -358,16 +358,23 @@ func (c *Client) endpointURL() *url.URL {
 	return u
 }
 
-// resolve joins Endpoint() and path.
+// resolve joins Endpoint() and path. It ensures the path carries the /api/v2
+// prefix used by 1Panel v2 (the "BasePath" declared in core/cmd/server/docs/swagger.json).
+// If the caller already includes /api/v2 in either the BaseURL or the path, no
+// additional prefix is added.
 func (c *Client) resolve(path string) string {
-	base := c.Endpoint()
-	if !strings.HasSuffix(base, "/") {
-		base += "/"
+	base := strings.TrimRight(c.Endpoint(), "/")
+	if !strings.HasPrefix(path, "/") {
+		path = "/" + path
 	}
-	if strings.HasPrefix(path, "/") {
-		path = path[1:]
+	if !hasAPIPrefix(base) && !hasAPIPrefix(path) {
+		path = "/api/v2" + path
 	}
 	return base + path
+}
+
+func hasAPIPrefix(s string) bool {
+	return strings.Contains(s, "/api/v2")
 }
 
 // SetEntrance re-encodes the entrance path used for the EntranceCode header.

@@ -8,7 +8,10 @@
 //	export ONEPANEL_PASS=secret
 //	go run ./example
 //
-// Or with an MFA flow, set ONEPANEL_MFA=<6-digit code>.
+// The SDK automatically prepends /api/v2 to every request path
+// (matching 1Panel's swagger basePath), so user-supplied paths are
+// always the post-strip form used by the 1Panel frontend
+// (e.g. /core/auth/login, /containers/search, /websites/ssl).
 package main
 
 import (
@@ -54,10 +57,6 @@ func main() {
 	osInfo, err := sdk.Dashboard.OSInfo(ctx)
 	check("dashboard.OSInfo", err)
 	printJSON("OSInfo", osInfo)
-
-	baseInfo, err := sdk.Dashboard.BaseInfo(ctx, "all", "all")
-	check("dashboard.BaseInfo", err)
-	printJSON("BaseInfo", baseInfo)
 
 	// === Hosts ===
 	hosts, err := sdk.Host.SearchHosts(ctx, onepanel.PageInfo{Page: 1, PageSize: 20})
@@ -108,21 +107,47 @@ func main() {
 	check("logs.GetOperationLogs", err)
 	printJSON("logs", logs)
 
-	// === Wildcard example: call an endpoint not yet wrapped ===
-	out, err := map[string]any{}, error(nil)
-	_ = out
-	_ = err
-	// rawResp, err := sdk.Dashboard.Call(ctx, "GET", "/dashboard/app/launcher", nil, nil)
-	// check("dashboard.app/launcher (raw)", err)
-	// printJSON("launcher", rawResp)
+	// === AI / OpenClaw agents (new in 1Panel v2) ===
+	ollamaModels, err := sdk.AI.OllamaSearch(ctx, map[string]any{"page": 1, "pageSize": 5})
+	check("ai.ollama/model/search", err)
+	printJSON("ollama models", ollamaModels)
 
-	// === Per-node override ===
+	// AI agents (note: actually mounted at /ai/agents/...)
+	agents, err := sdk.Agent.Search(ctx, map[string]any{"page": 1, "pageSize": 5})
+	check("agents.Search", err)
+	printJSON("agents", agents)
+
+	// === New sub-services that weren't in the original code review ===
+	// Health check (does not require auth).
+	var health map[string]any
+	err = sdk.Health.Call(ctx, "GET", "/health/check", nil, &health)
+	check("health/check", err)
+	printJSON("health", health)
+
+	// OpenResty (Nginx) status.
+	var openrestyStatus map[string]any
+	err = sdk.OpenResty.Call(ctx, "GET", "/openresty/status", nil, &openrestyStatus)
+	check("openresty/status", err)
+	printJSON("openresty status", openrestyStatus)
+
+	// Runtime list (PHP, Node, etc.).
+	var runtimes map[string]any
+	err = sdk.Runtime.POSTSearch(ctx, map[string]any{"page": 1, "pageSize": 5}, &runtimes)
+	check("runtimes/search", err)
+	printJSON("runtimes", runtimes)
+
+	// === Multi-node: target node 1 ===
 	if false {
 		nodeSDK := sdk.OnNode("1")
 		nodeContainers, err := nodeSDK.Container.List(ctx)
 		check("node[1].container.List", err)
 		printJSON("node[1].containers", nodeContainers)
 	}
+
+	// === Wildcard: reach an endpoint not yet typed ===
+	// (every service exposes Call(ctx, method, path, body, out) as a backdoor.)
+	// rawResp, err := map[string]any{}, error(nil)
+	// err = sdk.Dashboard.Call(ctx, "GET", "/dashboard/app/launcher", nil, &rawResp)
 
 	// === Logout ===
 	if err := sdk.Auth.Logout(ctx); err != nil {
