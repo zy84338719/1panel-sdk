@@ -1,0 +1,44 @@
+# golangci-lint v2 config for 1panel-sdk.
+# Install: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+# Run:     make lint
+
+version: "2"
+
+run:
+  timeout: 5m
+  tests: true
+
+linters:
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - gocritic
+    - prealloc
+    - misspell
+    - bodyclose
+    - contextcheck
+    - nilerr
+  # Disable revive entirely: the SDK has too many exported wrapper
+  # methods (most are one-liner delegations) and the exported/package-
+  # comment rules are noise here. Use the docs/ godoc package comment
+  # on each top-level service file instead.
+  disable:
+    - revive
+
+# Disable rules that don't fit a codegen-heavy SDK.
+linters-settings:
+  gocritic:
+    enabled-tags: [diagnostic, style, performance]
+    disabled-checks:
+      - ifElseChain
+      - hugeParam
+
+# Skip the codegen file entirely — it intentionally has unused params
+# (body is always passed in for symmetry) and gocritic nits.
+issues:
+  exclude-files:
+    - services_swagger.go
+    - ".*\\.bak$"

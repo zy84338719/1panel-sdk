@@ -65,7 +65,9 @@ type IDSlice struct {
 type ServiceBase struct{ d doer }
 
 // Get / Post / Put / Delete / Do proxy the doer.
-func (b *ServiceBase) Get(ctx context.Context, path string, out any) error    { return b.d.Get(ctx, path, out) }
+func (b *ServiceBase) Get(ctx context.Context, path string, out any) error {
+	return b.d.Get(ctx, path, out)
+}
 func (b *ServiceBase) Post(ctx context.Context, path string, body, out any) error {
 	return b.d.Post(ctx, path, body, out)
 }
@@ -76,5 +78,12 @@ func (b *ServiceBase) Delete(ctx context.Context, path string, body, out any) er
 	return b.d.Delete(ctx, path, body, out)
 }
 func (b *ServiceBase) Do(ctx context.Context, method, path string, body, out any) error {
+	return b.d.Do(ctx, method, path, body, out)
+}
+
+// Call is a wildcard for endpoints the typed methods don't wrap. Every service
+// inherits this; the path is in the same form the 1Panel frontend uses
+// (e.g. "/containers/search") — the client will prepend "/api/v2".
+func (b *ServiceBase) Call(ctx context.Context, method, path string, body, out any) error {
 	return b.d.Do(ctx, method, path, body, out)
 }

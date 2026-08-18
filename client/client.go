@@ -3,9 +3,9 @@
 // 1Panel v2 panel exposes two API families under one HTTPS port:
 //
 //   - /core/...      Main panel APIs (auth, settings, scripts, command library, logs, groups, backups, ...).
-//                     Served by the "core" process, reverse-proxied behind the public entrance path.
+//     Served by the "core" process, reverse-proxied behind the public entrance path.
 //   - /<resource>... Node-facing APIs (hosts, containers, apps, websites, databases, files, ...).
-//                     Each method is invoked on a particular node, selected via the "CurrentNode" header.
+//     Each method is invoked on a particular node, selected via the "CurrentNode" header.
 //
 // Authentication state:
 //   - After /core/auth/login the server sets two cookies: a session cookie and "pcsrftoken".
@@ -218,9 +218,6 @@ func (c *Client) doWithNode(ctx context.Context, method, path string, body any, 
 	if node != "" {
 		req.Header.Set("CurrentNode", url.QueryEscape(node))
 	}
-	if c.cfg.BaseURL == "" && body == nil {
-		// When talking directly to core, also hint node if set.
-	}
 
 	// Attach payload headers.
 	if body != nil {
@@ -241,7 +238,7 @@ func (c *Client) doWithNode(ctx context.Context, method, path string, body any, 
 	if err != nil {
 		return fmt.Errorf("client: do request: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	raw, err := io.ReadAll(resp.Body)
 	if err != nil {
