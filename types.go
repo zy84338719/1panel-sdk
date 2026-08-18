@@ -93,3 +93,37 @@ func (b *ServiceBase) Do(ctx context.Context, method, path string, body, out any
 func (b *ServiceBase) Call(ctx context.Context, method, path string, body, out any) error {
 	return b.d.Do(ctx, method, path, body, out)
 }
+
+// getMap issues a GET and decodes the response into a *map[string]any.
+// Every typed helper in the SDK funnels through this or postMap to keep
+// call sites uniform:
+//
+//	return b.getMap(ctx, "/containers/status")
+//
+// is equivalent to:
+//
+//	var out map[string]any
+//	if err := b.Get(ctx, "/containers/status", &out); err != nil {
+//	    return nil, err
+//	}
+//	return out, nil
+//
+// but reads as a single line. Both helpers are used heavily by both the
+// hand-written typed methods and the codegen-generated per-endpoint
+// wrappers in services_swagger.go.
+func (b *ServiceBase) getMap(ctx context.Context, path string) (map[string]any, error) {
+	var out map[string]any
+	if err := b.Get(ctx, path, &out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// postMap is the POST counterpart of getMap.
+func (b *ServiceBase) postMap(ctx context.Context, path string, body any) (map[string]any, error) {
+	var out map[string]any
+	if err := b.Post(ctx, path, body, &out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}

@@ -198,40 +198,42 @@ def fmt_sprintf_path(path, params):
 
 def gen_method(svc, m, path, summary, params):
     verb = m.upper()
-    verbmap = {'GET': 'Get', 'POST': 'Post', 'PUT': 'Put', 'DELETE': 'Delete'}
-    goverb = verbmap.get(verb, 'Do')
     name = method_name(path, m, summary)
     # Skip names that aren't valid Go identifiers
     if not re.match(r'^[A-Z][A-Za-z0-9]+$', name):
         return None
-    # Build parameter list, sanitized
+    # Build parameter list. GET has no body; other verbs have one.
     param_names = [go_keyword_safe(p) for p in params]
-    args = [f'{p} string' for p in param_names]
-    args.append('body any')
-    args.append('out any')
-    sig_args = ', '.join(['ctx context.Context'] + args)
-    # Build the call. The ServiceBase has Get(ctx, path, out) and Post/Put/Delete(ctx, path, body, out).
-    if verb == 'GET':
-        call_args = f'ctx, {path_lit(params, path)}, out'
-        call = f's.Get({call_args})'
+    has_body = verb != 'GET'
+    if has_body:
+        args = [f'{p} string' for p in param_names] + ['body any']
     else:
-        call_args = f'ctx, {path_lit(params, path)}, body, out'
-        call = f's.{goverb}({call_args})'
+        args = [f'{p} string' for p in param_names]
+    sig_args = ', '.join(['ctx context.Context'] + args)
+    # The ServiceBase exposes helper methods that return (map[string]any, error).
+    helper = {'GET': 'getMap', 'POST': 'postMap'}.get(verb, 'Do')
+    body_arg = 'body' if has_body else None
+    call = f's.{helper}({path_lit_call(params, path, param_names, body_arg)})'
     comment = f'// {name} — {summary} ({verb} {path})'
     return f'''{comment}
-func (s *{svc}) {name}({sig_args}) error {{
+func (s *{svc}) {name}({sig_args}) (map[string]any, error) {{
 	return {call}
 }}
 '''
 
 
-def path_lit(params, path):
-    """Return the Go expression for the request path with the given params interpolated."""
+def path_lit_call(params, path, param_names, body_arg):
+    """Return the argument list for the helper call."""
+    parts = ['ctx']
     if not params:
-        return f'"{path}"'
-    fmt, fargs = fmt_sprintf_path(path, params)
-    quoted = '"' + fmt.replace('"', '\\"') + '"'
-    return f'fmt.Sprintf({quoted}, {", ".join(fargs)})'
+        parts.append(f'"{path}"')
+    else:
+        fmt, fargs = fmt_sprintf_path(path, params)
+        quoted = '"' + fmt.replace('"', '\\"') + '"'
+        parts.append(f'fmt.Sprintf({quoted}, {", ".join(fargs)})')
+    if body_arg is not None:
+        parts.append(body_arg)
+    return ', '.join(parts)
 
 
 # Group by service

@@ -9,38 +9,22 @@ type GroupsService struct {
 
 // Create creates a group.
 func (s *GroupsService) Create(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/groups", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/groups", body)
 }
 
 // Delete deletes a group.
 func (s *GroupsService) Delete(ctx context.Context, id uint) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/groups/del", IDReq{ID: id}, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/groups/del", IDReq{ID: id})
 }
 
 // Update updates a group.
 func (s *GroupsService) Update(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/groups/update", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/groups/update", body)
 }
 
 // List lists groups.
 func (s *GroupsService) List(ctx context.Context) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/groups/search", nil, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/groups/search", nil)
 }
 
 // Call invokes an arbitrary /groups/* endpoint.
@@ -56,83 +40,47 @@ type CommandsService struct {
 
 // List lists commands.
 func (s *CommandsService) List(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/commands/list", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/commands/list", body)
 }
 
 // Create creates a command.
 func (s *CommandsService) Create(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/commands", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/commands", body)
 }
 
 // Delete deletes a command.
 func (s *CommandsService) Delete(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/commands/del", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/commands/del", body)
 }
 
 // Search searches commands.
 func (s *CommandsService) Search(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/commands/search", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/commands/search", body)
 }
 
 // SearchTree returns the command tree.
 func (s *CommandsService) SearchTree(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/commands/tree", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/commands/tree", body)
 }
 
 // Update updates a command.
 func (s *CommandsService) Update(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/commands/update", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/commands/update", body)
 }
 
 // Export exports commands to CSV.
 func (s *CommandsService) Export(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/commands/export", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/commands/export", body)
 }
 
 // UploadCsv uploads a CSV of commands.
 func (s *CommandsService) UploadCsv(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/commands/upload", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/commands/upload", body)
 }
 
 // Import imports commands.
 func (s *CommandsService) Import(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/commands/import", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/commands/import", body)
 }
 
 // Call invokes an arbitrary /commands/* endpoint.
@@ -148,56 +96,32 @@ type ScriptService struct {
 
 // Create creates a script.
 func (s *ScriptService) Create(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/script", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/script", body)
 }
 
 // Search searches scripts.
 func (s *ScriptService) Search(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/script/search", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/script/search", body)
 }
 
 // Delete deletes a script.
 func (s *ScriptService) Delete(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/script/del", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/script/del", body)
 }
 
 // Update updates a script.
 func (s *ScriptService) Update(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/script/update", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/script/update", body)
 }
 
 // Sync syncs scripts to the connected nodes.
 func (s *ScriptService) Sync(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/script/sync", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/script/sync", body)
 }
 
 // Run runs a script.
 func (s *ScriptService) Run(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Get(ctx, "/script/run", &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.getMap(ctx, "/script/run")
 }
 
 // Call invokes an arbitrary /script/* endpoint.

@@ -131,8 +131,7 @@ func main() {
 	printJSON("openresty status", openrestyStatus)
 
 	// Runtime list (PHP, Node, etc.).
-	var runtimes map[string]any
-	err = sdk.Runtime.POSTSearch(ctx, map[string]any{"page": 1, "pageSize": 5}, &runtimes)
+	runtimes, err := sdk.Runtime.POSTSearch(ctx, map[string]any{"page": 1, "pageSize": 5})
 	check("runtimes/search", err)
 	printJSON("runtimes", runtimes)
 

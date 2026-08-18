@@ -9,209 +9,117 @@ type HostService struct {
 
 // CreateHost registers a new managed host.
 func (s *HostService) CreateHost(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts", body)
 }
 
 // GetHost returns the host record by id.
 func (s *HostService) GetHost(ctx context.Context, id uint) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/info", IDReq{ID: id}, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/info", IDReq{ID: id})
 }
 
 // DeleteHost removes a managed host.
 func (s *HostService) DeleteHost(ctx context.Context, id uint) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/del", IDReq{ID: id}, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/del", IDReq{ID: id})
 }
 
 // UpdateHost updates a managed host.
 func (s *HostService) UpdateHost(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/update", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/update", body)
 }
 
 // UpdateHostGroup moves hosts into a different group.
 func (s *HostService) UpdateHostGroup(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/update/group", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/update/group", body)
 }
 
 // SearchHosts paginates managed hosts.
 func (s *HostService) SearchHosts(ctx context.Context, req PageInfo) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/search", req, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/search", req)
 }
 
 // HostTree returns the host group tree.
 func (s *HostService) HostTree(ctx context.Context) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/tree", nil, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/tree", nil)
 }
 
 // TestByInfo tests a host connection described inline.
 func (s *HostService) TestByInfo(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/test/byinfo", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/test/byinfo", body)
 }
 
 // TestByID tests a host's connection using its stored credentials.
 func (s *HostService) TestByID(ctx context.Context, id uint) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/test/byid", IDReq{ID: id}, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/test/byid", IDReq{ID: id})
 }
 
 // Disks returns the full disk inventory.
 func (s *HostService) Disks(ctx context.Context) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Get(ctx, "/hosts/disks", &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.getMap(ctx, "/hosts/disks")
 }
 
 // PartitionDisk creates a partition table on a disk.
 func (s *HostService) PartitionDisk(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/disks/partition", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/disks/partition", body)
 }
 
 // MountDisk mounts a device to a path.
 func (s *HostService) MountDisk(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/disks/mount", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/disks/mount", body)
 }
 
 // UnmountDisk unmounts a device.
 func (s *HostService) UnmountDisk(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/disks/unmount", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/disks/unmount", body)
 }
 
 // CheckComponent verifies that a system component exists (e.g. "docker", "mysql").
 func (s *HostService) CheckComponent(ctx context.Context, name string) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Get(ctx, "/hosts/components/"+name, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.getMap(ctx, "/hosts/components/"+name)
 }
 
 // ToolStatus returns the install/active state of a given tool.
 func (s *HostService) ToolStatus(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/tool/status", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/tool/status", body)
 }
 
 // InitToolConfig initializes a tool's configuration file.
 func (s *HostService) InitToolConfig(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/tool/init", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/tool/init", body)
 }
 
 // OperateTool starts/stops/restarts a tool.
 func (s *HostService) OperateTool(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/tool/operate", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/tool/operate", body)
 }
 
 // ToolConfig returns the config of a tool.
 func (s *HostService) ToolConfig(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/tool/config/get", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/tool/config/get", body)
 }
 
 // UpdateToolConfig updates a tool's configuration.
 func (s *HostService) UpdateToolConfig(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/tool/config/set", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/tool/config/set", body)
 }
 
 // OperateProcess controls a supervisor-managed process.
 func (s *HostService) OperateProcess(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/tool/supervisor/process", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/tool/supervisor/process", body)
 }
 
 // GetProcess returns the supervisor process state.
 func (s *HostService) GetProcess(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Get(ctx, "/hosts/tool/supervisor/process", &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.getMap(ctx, "/hosts/tool/supervisor/process")
 }
 
 // GetProcessFile returns the process configuration file.
 func (s *HostService) GetProcessFile(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/tool/supervisor/process/file/get", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/tool/supervisor/process/file/get", body)
 }
 
 // OperateProcessFile writes/updates the process configuration file.
 func (s *HostService) OperateProcessFile(ctx context.Context, body map[string]any) (map[string]any, error) {
-	var out map[string]any
-	if err := s.Post(ctx, "/hosts/tool/supervisor/process/file", body, &out); err != nil {
-		return nil, err
-	}
-	return out, nil
+return s.postMap(ctx, "/hosts/tool/supervisor/process/file", body)
 }
 
 // LocalTerminalURL returns the WebSocket path for a local shell.
