@@ -1,0 +1,13 @@
+# Build outputs
+/example/example
+/example/main
+
+# Editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Go
+*.test
+*.out
