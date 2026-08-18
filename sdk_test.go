@@ -16,7 +16,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zy84338719/1panel-sdk/client"
+	"github.com/zy84338719/go-1panel/client"
 )
 
 // fakePanel is a minimal 1Panel HTTP server for SDK smoke-testing.

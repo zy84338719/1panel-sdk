@@ -34,7 +34,7 @@ import (
 // Default timeout and base configuration.
 const (
 	DefaultTimeout = 60 * time.Second
-	UserAgent      = "1panel-sdk/1.0 (+https://github.com/zy84338719/1panel-sdk)"
+	UserAgent      = "1panel-sdk/1.0 (+https://github.com/zy84338719/go-1panel)"
 )
 
 // Result is the standard 1Panel response envelope.

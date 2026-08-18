@@ -1,6 +1,6 @@
-# 1Panel SDK for Go
+# go-1panel — Go SDK for 1Panel
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/zy84338719/1panel-sdk.svg)](https://pkg.go.dev/github.com/zy84338719/1panel-sdk)
+[![Go Reference](https://pkg.go.dev/badge/github.com/zy84338719/go-1panel.svg)](https://pkg.go.dev/github.com/zy84338719/go-1panel)
 [![Test](https://img.shields.io/badge/tests-24%2F24-brightgreen)](./sdk_test.go)
 [![Lint](https://img.shields.io/badge/lint-0%20issues-brightgreen)](./.golangci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
@@ -49,7 +49,7 @@ import (
     "log"
     "time"
 
-    "github.com/zy84338719/1panel-sdk"
+    "github.com/zy84338719/go-1panel"
 )
 
 func main() {
@@ -197,7 +197,7 @@ directory listings, so hand-written files keep their natural alphabetic
 order).
 
 ```
-1panel-sdk/
+go-1panel/
 ├── client/                 # low-level HTTP client (cookie, CSRF, /api/v2)
 │   ├── client.go
 │   ├── auth_helpers.go

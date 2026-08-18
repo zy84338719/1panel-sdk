@@ -1,3 +1,3 @@
-module github.com/zy84338719/1panel-sdk
+module github.com/zy84338719/go-1panel
 
 go 1.22

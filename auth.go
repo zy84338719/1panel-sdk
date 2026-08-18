@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/zy84338719/1panel-sdk/client"
+	"github.com/zy84338719/go-1panel/client"
 )
 
 // AuthService covers /core/auth/* and the master-panel authentication flow.

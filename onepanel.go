@@ -28,7 +28,7 @@ package onepanel
 import (
 	"context"
 
-	"github.com/zy84338719/1panel-sdk/client"
+	"github.com/zy84338719/go-1panel/client"
 )
 
 // doer is the minimal HTTP surface used by sub-services. Implemented by both

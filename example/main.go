@@ -22,8 +22,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/zy84338719/1panel-sdk"
-	"github.com/zy84338719/1panel-sdk/client"
+	"github.com/zy84338719/go-1panel"
+	"github.com/zy84338719/go-1panel/client"
 )
 
 func main() {

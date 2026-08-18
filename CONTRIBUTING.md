@@ -3,7 +3,7 @@
 ## Repo layout
 
 ```
-1panel-sdk/
+go-1panel/
 ├── client/                # low-level HTTP client (cookie, CSRF, /api/v2)
 │   ├── client.go
 │   ├── auth_helpers.go
@@ -79,5 +79,5 @@
 
 - Bump the version in `CHANGELOG.md` under a new heading.
 - Tag with `git tag vX.Y.Z && git push --tags`.
-- The Go module path is `github.com/zy84338719/1panel-sdk`; users can
-  `go get github.com/zy84338719/1panel-sdk@vX.Y.Z`.
+- The Go module path is `github.com/zy84338719/go-1panel`; users can
+  `go get github.com/zy84338719/go-1panel@vX.Y.Z`.
